@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import 'const_data.dart';
 
 extension IterableExtensions<E> on Iterable<E> {
@@ -35,13 +35,12 @@ extension StringH on String {
     final rootDir = Directory(rootFolder);
 
     if (!await rootDir.exists()) {
-      debugPrint("Root folder does not exist.");
       return foundFiles.firstOrNull;
     }
 
     await for (var entity in rootDir.list(recursive: true, followLinks: false)) {
       if (entity is File) {
-        if (path.basename(entity.path) == this) {
+        if (basename(entity.path) == this) {
           foundFiles.add(entity.path);
         }
       }
@@ -53,21 +52,14 @@ extension StringH on String {
   Future<String> get findOrCreateAndEnterDirectory async {
     final rootDir = Directory(rootFolder);
 
-    if (!await rootDir.exists()) {
-      throw Exception("Root folder does not exist: $rootFolder");
-    }
-
     await for (var entity in rootDir.list(recursive: true, followLinks: false)) {
-      if (entity is Directory && path.basename(entity.path) == this) {
+      if (entity is Directory && basename(entity.path) == this) {
         return entity.path;
       }
     }
 
-    final newDirPath = path.join(rootFolder, this);
-    final newDir = Directory(newDirPath);
-    await newDir.create(recursive: true);
+    final libPath = join(rootDir.path, 'lib');
 
-    final libPath = path.join(newDirPath, 'lib');
     await Directory(libPath).create(recursive: true);
 
     return libPath;

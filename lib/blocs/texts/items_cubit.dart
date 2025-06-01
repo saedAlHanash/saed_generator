@@ -1,6 +1,6 @@
-import '../const_data.dart';
+import '../../const_data.dart';
 
-import '../const_data.dart';
+import '../../const_data.dart';
 
 final itemsCubit =
     '''
