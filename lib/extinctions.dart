@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
+
 import 'const_data.dart';
 
 extension IterableExtensions<E> on Iterable<E> {
@@ -13,20 +13,39 @@ extension IterableExtensions<E> on Iterable<E> {
 
 extension StringH on String {
   String get toSnakeCase {
-    final regex = RegExp(r'(?<=[a-z])[A-Z]');
-    return replaceAllMapped(regex, (match) => '_${match.group(0)}').toLowerCase();
+    if (isEmpty) {
+      return '';
+    }
+    // Handle cases where there's already an underscore (likely already snake_case or similar)
+    // or if it's a single word (no case changes needed, just lowercase).
+    if (contains('_') || !contains(RegExp(r'[A-Z]'))) {
+      return toLowerCase().replaceAll(' ', '_');
+    }
+
+    final regex = RegExp(r'(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])');
+    return this.split(regex).map((s) => s.toLowerCase()).join('_');
   }
 
   String get toPascalCase {
-    final words = split('_');
-    return words.map((word) => word[0].toUpperCase() + word.substring(1)).join();
+    if (isEmpty) {
+      return '';
+    }
+    // Split by underscore or by capital letters for camelCase/snake_case inputs
+    final words = this.split(RegExp(r'_|(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])'));
+    if (words.isEmpty) return '';
+    return words.map((word) {
+      if (word.isEmpty) return '';
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join();
   }
 
   String get toCamelCase {
-    final words = split('_');
-    if (words.isEmpty) return '';
-    final capitalized = words.map((word) => word[0].toUpperCase() + word.substring(1)).join();
-    return capitalized[0].toLowerCase() + capitalized.substring(1);
+    if (isEmpty) {
+      return '';
+    }
+    final pascalCase = toPascalCase;
+    if (pascalCase.isEmpty) return '';
+    return pascalCase[0].toLowerCase() + pascalCase.substring(1);
   }
 
   Future<String?> get findFilesByName async {

@@ -10,6 +10,7 @@ Future<void> inject() async {
   var injectionPath = await 'injection_container.dart'.findFilesByName;
 
   injectionPath ??= await checkAndCreate(injectionPath);
+
   final file = File(injectionPath);
 
   final lines = await file.readAsLines();

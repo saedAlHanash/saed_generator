@@ -31,8 +31,8 @@ import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubi
 ''';
 
 // تحقق من وجود منطقة التسجيل مسبقاً
-final registrationLine1 = "  sl.registerFactory(() => ${nameServicePC}Cubit());";
-final registrationLine2 = "  sl.registerFactory(() => ${nameServicePC}sCubit());";
+final registrationLine1 = "sl.registerFactory(() => ${nameServicePC}Cubit());";
+final registrationLine2 = "sl.registerFactory(() => ${nameServicePC}sCubit());";
 
 final registrationBlock =
     '''

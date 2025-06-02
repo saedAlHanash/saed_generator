@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 import 'package:saed_generator/extinctions.dart';
 import 'package:saed_generator/data/texts/request.dart';
 import 'package:saed_generator/data/texts/response.dart';
+import 'package:saed_generator/routes/routes_g.dart';
 import 'package:saed_generator/ui/ui_g.dart';
 
 import 'api_and_url/api_and_url.dart';
@@ -46,4 +47,6 @@ Future<void> createFoldersAndFiles() async {
   await dataFolder();
 
   await uiFolder();
+
+  await routeG();
 }
