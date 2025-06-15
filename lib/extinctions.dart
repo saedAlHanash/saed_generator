@@ -51,21 +51,23 @@ extension StringH on String {
   Future<String?> get findFilesByName async {
     final List<String> foundFiles = [];
 
-    final rootDir = Directory(rootFolder);
+    final libDir = Directory(join(rootFolder, 'lib'));
 
-    if (!await rootDir.exists()) {
-      return foundFiles.firstOrNull;
+    if (!await libDir.exists()) {
+      return null;
     }
 
-    await for (var entity in rootDir.list(recursive: true, followLinks: false)) {
-      if (entity is File) {
-        if (basename(entity.path) == this) {
+    try {
+      await for (var entity in libDir.list(recursive: true, followLinks: false)) {
+        if (entity is File && basename(entity.path) == this) {
           foundFiles.add(entity.path);
         }
       }
+    } catch (e) {
+      print('____$e');
     }
 
-    return foundFiles.firstOrNull;
+    return foundFiles.isNotEmpty ? foundFiles.first : null;
   }
 
   Future<String> get findOrCreateAndEnterDirectory async {

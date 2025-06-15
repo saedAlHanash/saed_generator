@@ -36,7 +36,7 @@ String get registrationBlock =>
       path: RouteName.$nameServiceCC,
       name: RouteName.$nameServiceCC,
       builder: (_, state) {
-        String get ${nameServiceCC}Id = state.uri.queryParameters['id'] ?? '';
+        String  ${nameServiceCC}Id = state.uri.queryParameters['id'] ?? '';
         return MultiBlocProvider(
           providers: [
             BlocProvider(

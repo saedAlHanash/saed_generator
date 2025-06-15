@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_multi_type/image_multi_type.dart';
 
-import '../../data/response/teachers_response.dart';
+import '../../data/response/${nameServiceSC}_response.dart';
 
 class Item$nameServicePC extends StatelessWidget {
-  const Item$nameServicePC({super.key, required this.teacher});
+  const Item$nameServicePC({super.key, required this.$nameServiceCC});
 
-  final $nameServicePC teacher;
+  final $nameServicePC $nameServiceCC;
 
   @override
   Widget build(BuildContext context) {

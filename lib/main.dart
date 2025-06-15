@@ -81,6 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
           Text('apiName'),
           SizedBox(height: 5.0),
           TextFormField(onChanged: (value) => apiName = value),
+          Text('project name'),
+          SizedBox(height: 5.0),
+          TextFormField(onChanged: (value) => nameProject = value),
           SizedBox(height: 30.0),
           ElevatedButton(
             onPressed: () {

@@ -17,7 +17,7 @@ class ${nameServicePC}Page extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<FollowCubit, FollowInitial>(
+        BlocListener<${nameServicePC}Cubit, ${nameServicePC}Initial>(
           listenWhen: (p, c) => c.done,
           listener: (context, state) {},
         ),

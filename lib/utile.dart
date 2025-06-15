@@ -36,7 +36,7 @@ Future<String> get getProjectname async {
 }
 
 Future<void> createFoldersAndFiles() async {
-  nameProject = await getProjectname;
+  // nameProject = await getProjectname;
 
   await addUrls();
 

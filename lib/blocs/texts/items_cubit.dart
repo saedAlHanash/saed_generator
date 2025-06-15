@@ -64,7 +64,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
     final response = await APIService().callApi(
       type: ApiType.post,
-      url: PostUrl.create$nameServiceCC,
+      url: PostUrl.create$nameServicePC,
       body: state.cRequest.toJson(),
     );
 
@@ -76,7 +76,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
     final response = await APIService().callApi(
       type: ApiType.put,
-      url: PutUrl.update$nameServiceCC,
+      url: PutUrl.update$nameServicePC,
       query: {'id': state.cRequest.id},
       body: state.cRequest.toJson(),
     );
@@ -88,7 +88,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
     final response = await APIService().callApi(
       type: ApiType.delete,
-      url: DeleteUrl.delete$nameServiceCC,
+      url: DeleteUrl.delete$nameServicePC,
       query: {'id': state.id},
     );
 
@@ -103,7 +103,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
     final response = await APIService().callApi(
       type: ApiType.delete,
-      url: DeleteUrl.delete$nameServiceCC,
+      url: DeleteUrl.delete$nameServicePC,
       query: {'id': state.id},
     );
 
