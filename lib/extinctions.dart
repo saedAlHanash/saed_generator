@@ -70,19 +70,24 @@ extension StringH on String {
     return foundFiles.isNotEmpty ? foundFiles.first : null;
   }
 
-  Future<String> get findOrCreateAndEnterDirectory async {
-    final rootDir = Directory(rootFolder);
+  Future<String?> get findOrCreateAndEnterDirectory async {
+    try {
+      final rootDir = Directory(join(rootFolder, 'lib'));
 
-    await for (var entity in rootDir.list(recursive: true, followLinks: false)) {
-      if (entity is Directory && basename(entity.path) == this) {
-        return entity.path;
+      await for (var entity in rootDir.list(recursive: true, followLinks: false)) {
+        if (entity is Directory && basename(entity.path) == this) {
+          return entity.path;
+        }
       }
+
+      final libPath = join(rootDir.path, 'lib');
+
+      await Directory(libPath).create(recursive: true);
+
+      return libPath;
+    } catch (e) {
+      print('____$e');
+      return null;
     }
-
-    final libPath = join(rootDir.path, 'lib');
-
-    await Directory(libPath).create(recursive: true);
-
-    return libPath;
   }
 }

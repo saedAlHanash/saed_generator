@@ -9,10 +9,10 @@ import 'package:saed_generator/blocs/texts/items_state.dart';
 
 import '../const_data.dart';
 
-
-
 Future<void> blocs() async {
-  final serviceFolder = path.join(await 'features'.findOrCreateAndEnterDirectory, nameServiceSC);
+  final features = await 'features'.findOrCreateAndEnterDirectory;
+  if (features == null) return;
+  final serviceFolder = path.join(features, nameServiceSC);
 
   final blocFolder = path.join(serviceFolder, 'bloc');
   await Directory(blocFolder).create(recursive: true);

@@ -8,7 +8,9 @@ import 'package:saed_generator/data/texts/response.dart';
 import '../const_data.dart';
 
 Future<void> dataFolder() async {
-  final serviceFolder = path.join(await 'features'.findOrCreateAndEnterDirectory, nameServiceSC);
+  final features = await 'features'.findOrCreateAndEnterDirectory;
+  if (features == null) return;
+  final serviceFolder = path.join(features, nameServiceSC);
 
   final dataFolder = path.join(serviceFolder, 'data');
   await Directory(dataFolder).create(recursive: true);

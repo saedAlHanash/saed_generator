@@ -9,7 +9,9 @@ import 'package:saed_generator/ui/texts/page_g.dart';
 import '../const_data.dart';
 
 Future<void> uiFolder() async {
-  final serviceFolder = path.join(await 'features'.findOrCreateAndEnterDirectory, nameServiceSC);
+  final features  = await 'features'.findOrCreateAndEnterDirectory;
+  if(features==null)return;
+  final serviceFolder = path.join(features, nameServiceSC);
 
   final uiFolder = path.join(serviceFolder, 'ui');
   await Directory(uiFolder).create(recursive: true);
