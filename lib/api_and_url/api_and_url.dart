@@ -15,7 +15,7 @@ Future<void> addUrls() async {
     final apiManagerDir = await Directory(join(corDir.path, 'api_manager')).create(recursive: true);
     final file = File(join(apiManagerDir.path, 'api_url.dart'));
     apiUrlPath = (await file.create(recursive: true)).path;
-    file.writeAsString(apiText);
+    // file.writeAsString(apiText);
   }
 
   final file = File(apiUrlPath);

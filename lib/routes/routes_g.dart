@@ -8,10 +8,10 @@ import '../const_data.dart';
 
 Future<void> routeG() async {
   var fileRoute = await 'go_router.dart'.findFilesByName;
-  fileRoute ??= await checkAndCreate(fileRoute);
+  // fileRoute ??= await checkAndCreate(fileRoute);
 
+  if (fileRoute == null) return;
   final file = File(fileRoute);
-
   final lines = await file.readAsLines();
 
   final existingLines = lines.toSet();

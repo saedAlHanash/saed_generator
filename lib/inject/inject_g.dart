@@ -9,8 +9,8 @@ import '../const_data.dart';
 Future<void> inject() async {
   var injectionPath = await 'injection_container.dart'.findFilesByName;
 
-  injectionPath ??= await checkAndCreate(injectionPath);
-
+  // injectionPath ??= await checkAndCreate(injectionPath);
+  if (injectionPath == null) return;
   final file = File(injectionPath);
 
   final lines = await file.readAsLines();
@@ -45,6 +45,6 @@ Future<String> checkAndCreate(String? injectionPath) async {
   final corDir = await Directory(join(rootFolder, 'lib', 'core')).create(recursive: true);
   final apiManagerDir = await Directory(join(corDir.path, 'injection')).create(recursive: true);
   final file = File(join(apiManagerDir.path, 'injection_container.dart'));
-  file.writeAsString(injectText);
+  // file.writeAsString(injectText);
   return ((await file.create(recursive: true)).path);
 }
