@@ -21,7 +21,6 @@ class $nameServicePC {
     );
   }
 
-//</editor-fold>
 }
 
 class ${nameServicePC}s {

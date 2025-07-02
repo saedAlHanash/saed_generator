@@ -12,12 +12,14 @@ class ${nameServicePC}Initial extends AbstractState<$nameServicePC> {
     super.error,
     required super.request,
     super.statuses,
+    super.id,
   });
 
   factory ${nameServicePC}Initial.initial() {
     return ${nameServicePC}Initial(
       result: $nameServicePC.fromJson({}),
       request: '',
+      
     );
   }
 
@@ -27,6 +29,7 @@ class ${nameServicePC}Initial extends AbstractState<$nameServicePC> {
         result,
         error,
         if (request != null) request,
+        if (id != null) id,
         if (filterRequest != null) filterRequest!,
       ];
       
@@ -34,12 +37,14 @@ class ${nameServicePC}Initial extends AbstractState<$nameServicePC> {
     CubitStatuses? statuses,
     $nameServicePC? result,
     String? error,
+    dynamic id,
     String? request,
   }) {
     return ${nameServicePC}Initial(
       statuses: statuses ?? this.statuses,
       result: result ?? this.result,
       error: error ?? this.error,
+      id: id ?? this.id,
       request: request ?? this.request,
     );
   }

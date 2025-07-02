@@ -19,7 +19,7 @@ class Create${nameServicePC}Request {
 
   factory Create${nameServicePC}Request.from$nameServicePC($nameServicePC $nameServiceCC) {
     return Create${nameServicePC}Request(
-      id: $nameServiceCC.id,
+      id: $nameServiceCC.id.toString(),
     );
   }
 

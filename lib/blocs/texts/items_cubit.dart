@@ -19,9 +19,7 @@ import '../../../../core/error/error_manager.dart';
 part '${nameServiceSC}s_state.dart';
 
 class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
-  ${nameServicePC}sCubit() : super(${nameServicePC}sInitial.initial()) {
-    getDataFromCache();
-  }
+  ${nameServicePC}sCubit() : super(${nameServicePC}sInitial.initial()) ;
 
   @override
   String get nameCache => '${nameServiceCC}s';
@@ -89,7 +87,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
     final response = await APIService().callApi(
       type: ApiType.delete,
       url: DeleteUrl.delete$nameServicePC,
-      query: {'id': state.id},
+      query: {'id': state.id.toString()},
     );
 
     await _updateState(response, isDelete: true);
@@ -104,7 +102,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
     final response = await APIService().callApi(
       type: ApiType.delete,
       url: DeleteUrl.delete$nameServicePC,
-      query: {'id': state.id},
+      query: {'id': state.id.toString()},
     );
 
     if (response.statusCode.success) {
@@ -119,11 +117,11 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
   Future<void> _updateState(Response response, {bool isDelete = false}) async {
     if (response.statusCode.success) {
       final item = $nameServicePC.fromJson(response.jsonBody);
-      isDelete ? await delete${nameServicePC}FromCache(state.id) : await addOrUpdate${nameServicePC}ToCache(item);
+      isDelete ? await delete${nameServicePC}FromCache(state.id.toString()) : await addOrUpdate${nameServicePC}ToCache(item);
       emit(state.copyWith(statuses: CubitStatuses.done));
     } else {
+      emit(state.copyWith(statuses: CubitStatuses.error, error: response.getPairError.second));
       showErrorFromApi(state);
-      emit(state.copyWith(statuses: CubitStatuses.error));
     }
   }
 
