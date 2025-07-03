@@ -94,7 +94,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
   }
 
   Future<void> deleteNow({required String id}) async {
-    final index = state.result.indexWhere((element) => element.id == id);
+    final index = state.result.indexWhere((element) => element.id.toString() == id);
     final item = state.result.removeAt(index);
 
     emit(state.copyWith(cubitCrud: CubitCrud.delete, result: state.result, id: id));

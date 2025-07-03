@@ -17,9 +17,9 @@ class ${nameServicePC}sInitial extends AbstractState<List<$nameServicePC>> {
   });
 
   factory ${nameServicePC}sInitial.initial() {
-    return const ${nameServicePC}sInitial(
+    return  ${nameServicePC}sInitial(
       result: [],
-      cRequest:Create${nameServicePC}Request.fromJson({});
+      createUpdateRequest: Create${nameServicePC}Request.fromJson({}),
     );
   }
 

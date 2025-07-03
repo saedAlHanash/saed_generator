@@ -9,14 +9,14 @@ import 'package:saed_generator/ui/texts/page_g.dart';
 import '../const_data.dart';
 
 Future<void> uiFolder() async {
-  final features  = await 'features'.findOrCreateAndEnterDirectory;
-  if(features==null)return;
+  final features = await 'features'.findOrCreateAndEnterDirectory;
+  if (features == null) return;
   final serviceFolder = path.join(features, nameServiceSC);
 
   final uiFolder = path.join(serviceFolder, 'ui');
   await Directory(uiFolder).create(recursive: true);
 
-  final uiSubFolders = ['pages', 'widgets'];
+  final uiSubFolders = ['pages', 'widget'];
   for (final subFolder in uiSubFolders) {
     final folderPath = path.join(uiFolder, subFolder);
     await Directory(folderPath).create(recursive: true);
@@ -30,11 +30,11 @@ Future<void> uiFolder() async {
     file.writeAsString(subFiles != pagesSubFiles.first ? listPage : pageG);
   }
 
-  final widgetsSubFolders = ['item_$nameServiceSC.dart'];
-  for (final subFolder in widgetsSubFolders) {
-    final folderPath = path.join(uiFolder, 'widgets', subFolder);
+  final widgetSubFolders = ['item_$nameServiceSC.dart'];
+  for (final subFolder in widgetSubFolders) {
+    final folderPath = path.join(uiFolder, 'widget', subFolder);
     final file = File(folderPath);
     await file.create(recursive: true);
-    file.writeAsString(subFolder == widgetsSubFolders.first ? itemWidget : '');
+    file.writeAsString(subFolder == widgetSubFolders.first ? itemWidget : '');
   }
 }

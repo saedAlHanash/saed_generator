@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/widgets/app_bar/app_bar_widget.dart';
-import '../../../../core/widgets/refresh_widget/refresh_widget.dart';
+import '../../../../core/widget/app_bar/app_bar_widget.dart';
+import '../../../../core/widget/refresh_widget/refresh_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../bloc/${nameServiceSC}s_cubit/${nameServiceSC}s_cubit.dart';
-import '../widgets/item_$nameServiceSC.dart';
+import '../widget/item_$nameServiceSC.dart';
 
 class ${nameServicePC}sPage extends StatelessWidget {
   const ${nameServicePC}sPage({super.key});
