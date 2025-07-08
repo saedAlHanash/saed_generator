@@ -29,8 +29,17 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
   //region getData
 
-  void getDataFromCache() => getFromCache(fromJson: $nameServicePC.fromJson, state: state);
 
+  void getDataFromCache() {
+    getFromCache(
+      fromJson: $nameServicePC.fromJson,
+      state: state,
+      onSuccess: (data) {
+        emit(state.copyWith(result: data));
+      },
+    );
+  }
+  
   Future<void> getData({bool newData = false}) async {
     await getDataAbstract(
       fromJson: $nameServicePC.fromJson,
@@ -106,7 +115,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
     );
 
     if (response.statusCode.success) {
-      await delete${nameServicePC}FromCache(item.id);
+      await delete${nameServicePC}FromCache(item.id.toString());
     } else {
       showErrorFromApi(state);
       state.result.insert(index, item);
