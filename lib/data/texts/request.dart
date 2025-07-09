@@ -1,6 +1,6 @@
 import '../../const_data.dart';
 
-final request =
+String get request =>
     '''
 import '../response/${nameServiceSC}_response.dart';
 

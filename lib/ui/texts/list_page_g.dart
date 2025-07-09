@@ -1,6 +1,6 @@
 import 'package:saed_generator/const_data.dart';
 
-final listPage =
+String get listPage =>
     '''
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

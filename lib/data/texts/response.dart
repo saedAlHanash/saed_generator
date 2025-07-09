@@ -1,6 +1,6 @@
 import '../../const_data.dart';
 
-final response =
+String get response =>
     '''
 class $nameServicePC {
   $nameServicePC({

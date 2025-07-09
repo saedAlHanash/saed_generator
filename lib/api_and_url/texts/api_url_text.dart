@@ -1,4 +1,4 @@
-final apiText = '''
+String get apiText => '''
 class GetUrl {
 
   //

@@ -1,6 +1,6 @@
 import 'package:saed_generator/const_data.dart';
 
-final pageG =
+String get pageG =>
     '''
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

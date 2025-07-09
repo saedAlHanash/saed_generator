@@ -2,7 +2,7 @@ import '../../const_data.dart';
 
 import '../../const_data.dart';
 
-final itemState =
+String get itemState =>
     '''
 part of '${nameServiceSC}_cubit.dart';
 
