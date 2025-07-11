@@ -2,7 +2,7 @@ import '../../const_data.dart';
 
 import '../../const_data.dart';
 
-final itemCubit =
+String get itemCubit =>
     '''
 import 'package:$nameProject/core/api_manager/api_service.dart';
 import 'package:$nameProject/core/api_manager/api_url.dart';

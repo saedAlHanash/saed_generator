@@ -29,7 +29,6 @@ Future<void> routeG() async {
     final line = lines[i];
     modifiedLines.add(line);
 
-    final c = '$nameServiceCC $nameService';
     if (!insertRoute && line.contains('routes')) {
       modifiedLines.add(registrationBlock);
       insertRoute = true;

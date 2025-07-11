@@ -1,6 +1,6 @@
 import '../../const_data.dart';
 
-final injectText = '''
+String get injectText => '''
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,7 +22,7 @@ Future<void> init() async {
 }
 ''';
 
-final importStatement =
+String get importStatement =>
     '''
       
 import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}_cubit/${nameServiceSC}_cubit.dart';
@@ -31,10 +31,11 @@ import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubi
 ''';
 
 // تحقق من وجود منطقة التسجيل مسبقاً
-final registrationLine1 = "sl.registerFactory(() => ${nameServicePC}Cubit());";
-final registrationLine2 = "sl.registerFactory(() => ${nameServicePC}sCubit());";
+String get registrationLine1 => "sl.registerFactory(() => ${nameServicePC}Cubit());";
 
-final registrationBlock =
+String get registrationLine2 => "sl.registerFactory(() => ${nameServicePC}sCubit());";
+
+String get registrationBlock =>
     '''
   //region $nameServiceCC
   $registrationLine1

@@ -2,7 +2,7 @@ import '../../const_data.dart';
 
 import '../../const_data.dart';
 
-final itemsCubit =
+String get itemsCubit =>
     '''
 import 'package:$nameProject/core/api_manager/api_service.dart';
 import 'package:$nameProject/core/api_manager/api_url.dart';
@@ -29,17 +29,13 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
   //region getData
 
+  void getDataFromCache() => getFromCache(
+  fromJson: $nameServicePC.fromJson, 
+  state: state,   
+  onSuccess: (data) {
+          emit(state.copyWith(result: data));
+        },);
 
-  void getDataFromCache() {
-    getFromCache(
-      fromJson: $nameServicePC.fromJson,
-      state: state,
-      onSuccess: (data) {
-        emit(state.copyWith(result: data));
-      },
-    );
-  }
-  
   Future<void> getData({bool newData = false}) async {
     await getDataAbstract(
       fromJson: $nameServicePC.fromJson,
@@ -115,7 +111,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
     );
 
     if (response.statusCode.success) {
-      await delete${nameServicePC}FromCache(item.id.toString());
+      await delete${nameServicePC}FromCache(item.id);
     } else {
       showErrorFromApi(state);
       state.result.insert(index, item);

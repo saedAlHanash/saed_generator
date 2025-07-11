@@ -1,12 +1,12 @@
 import 'package:saed_generator/const_data.dart';
 
-final pageG =
+String get pageG =>
     '''
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/widget/app_bar/app_bar_widget.dart';
-import '../../../../core/widget/refresh_widget/refresh_widget.dart';
+import '../../../../core/widgets/app_bar/app_bar_widget.dart';
+import '../../../../core/widgets/refresh_widget/refresh_widget.dart';
 
 import '../../bloc/${nameServiceSC}_cubit/${nameServiceSC}_cubit.dart';
 

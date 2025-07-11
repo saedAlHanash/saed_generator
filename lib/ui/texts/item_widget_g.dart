@@ -1,6 +1,6 @@
 import 'package:saed_generator/const_data.dart';
 
-final itemWidget =
+String get itemWidget =>
     '''
 
 import 'package:drawable_text/drawable_text.dart';
