@@ -3,6 +3,7 @@ import 'package:saed_generator/utile.dart';
 
 import '../const_data.dart';
 import 'package:file_picker/file_picker.dart';
+import 'blocs/add_cubit_g.dart';
 
 void main() {
   runApp(const MyApp());
@@ -313,14 +314,146 @@ class _ModernTextField extends StatelessWidget {
   }
 }
 
-class AddCubitPage extends StatelessWidget {
+class AddCubitPage extends StatefulWidget {
   const AddCubitPage({super.key});
+  @override
+  State<AddCubitPage> createState() => _AddCubitPageState();
+}
+
+class _AddCubitPageState extends State<AddCubitPage> {
+  final rootFolderController = TextEditingController();
+  final nameServiceController = TextEditingController();
+  final apiNameController = TextEditingController();
+  final cubitSubFolderController = TextEditingController();
+  bool isLoading = false;
+
+  Future<void> _pickRootFolder() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null && selectedDirectory.isNotEmpty) {
+      rootFolderController.text = selectedDirectory;
+      setState(() {});
+    }
+  }
+
+  Future<void> _pickCubitSubFolder() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null && selectedDirectory.isNotEmpty) {
+      cubitSubFolderController.text = selectedDirectory;
+      setState(() {});
+    }
+  }
+
+  Future<void> _createCubit() async {
+    setState(() => isLoading = true);
+    try {
+      await addCubitG(
+        rootFolderInput: rootFolderController.text.trim(),
+        nameServiceInput: nameServiceController.text.trim(),
+        apiNameInput: apiNameController.text.trim(),
+        cubitSubFolderInput: cubitSubFolderController.text.trim(),
+      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('تم إنشاء الكيوبت بنجاح!')));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('حدث خطأ: $e')));
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Cubit')),
-      body: const Center(child: Text('صفحة إضافة Cubit (سيتم تطويرها لاحقاً)')),
+      appBar: AppBar(title: const Text('إضافة Cubit جديد')),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Icon(Icons.add_box, size: 60, color: Colors.blue),
+                    const SizedBox(height: 16),
+                    Text(
+                      'إضافة Cubit جديد',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    _ModernTextField(
+                      controller: rootFolderController,
+                      label: 'مسار الجذر',
+                      icon: Icons.folder,
+                      hint: 'مثال: C:/Users/Lenovo/StudioProjects/packages',
+                      suffix: IconButton(
+                        icon: const Icon(Icons.folder_open, color: Colors.blue),
+                        tooltip: 'اختيار مجلد...',
+                        onPressed: _pickRootFolder,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _ModernTextField(
+                      controller: nameServiceController,
+                      label: 'اسم الخدمة',
+                      icon: Icons.miscellaneous_services,
+                      hint: 'مثال: user',
+                    ),
+                    const SizedBox(height: 16),
+                    _ModernTextField(
+                      controller: apiNameController,
+                      label: 'اسم الـ API',
+                      icon: Icons.api,
+                      hint: 'مثال: user_api',
+                    ),
+                    const SizedBox(height: 16),
+                    _ModernTextField(
+                      controller: cubitSubFolderController,
+                      label: 'اسم مجلد الكيوبت (مثال: user_cubit)',
+                      icon: Icons.folder_special,
+                      hint: 'مثال: user_cubit',
+                      suffix: IconButton(
+                        icon: const Icon(Icons.folder_open, color: Colors.blue),
+                        tooltip: 'اختيار مجلد...',
+                        onPressed: _pickCubitSubFolder,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: isLoading
+                            ? const SizedBox(
+                                width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            : const Icon(Icons.add),
+                        label: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('إنشاء الكيوبت'),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        onPressed: isLoading ? null : _createCubit,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
