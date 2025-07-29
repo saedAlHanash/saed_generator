@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:saed_generator/utile.dart';
 
 import '../const_data.dart';
+import 'package:file_picker/file_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +11,116 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Saed Generator',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          elevation: 2,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          ),
+        ),
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Saed Generator'),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _HomeButton(
+                  label: 'Full Service',
+                  icon: Icons.auto_awesome,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const FullService()),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _HomeButton(
+                  label: 'Add Cubit',
+                  icon: Icons.add_box,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AddCubitPage()),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _HomeButton(
+                  label: 'Add Service Cubit',
+                  icon: Icons.add_business,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AddServiceCubitPage()),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _HomeButton(
+                  label: 'Empty Now',
+                  icon: Icons.hourglass_empty,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const EmptyNowPage()),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _HomeButton({required this.label, required this.icon, required this.onTap, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        icon: Icon(icon, size: 28),
+        label: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(label),
+        ),
+        onPressed: onTap,
+      ),
     );
   }
 }
@@ -75,36 +179,172 @@ class _FullServiceState extends State<FullService> {
   final nameServiceController = TextEditingController();
   final apiNameController = TextEditingController();
 
+  Future<void> _pickRootFolder() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if (selectedDirectory != null && selectedDirectory.isNotEmpty) {
+      rootFolderController.text = selectedDirectory;
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Full service'),
+        title: const Text('Full Service'),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
-      body: Column(
-        children: [
-          Text('rootFolder'),
-          SizedBox(height: 5.0),
-          TextFormField(controller: rootFolderController),
-          Text('nameService'),
-          SizedBox(height: 5.0),
-          TextFormField(controller: nameServiceController),
-          Text('apiName'),
-          SizedBox(height: 5.0),
-          TextFormField(controller: apiNameController),
-          SizedBox(height: 30.0),
-          ElevatedButton(
-            onPressed: () {
-              rootFolder = rootFolderController.text;
-              nameService = nameServiceController.text;
-              apiName = apiNameController.text;
-              createFoldersAndFiles();
-            },
-            child: Text('Create Folders and Files'),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+            child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Icon(Icons.auto_awesome, size: 60, color: Colors.blue),
+                    const SizedBox(height: 16),
+                    Text(
+                      'إنشاء خدمة كاملة',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    _ModernTextField(
+                      controller: rootFolderController,
+                      label: 'اسم مجلد الجذر',
+                      icon: Icons.folder,
+                      hint: 'مثال: packages/my_project',
+                      suffix: IconButton(
+                        icon: const Icon(Icons.folder_open, color: Colors.blue),
+                        tooltip: 'اختيار مجلد...',
+                        onPressed: _pickRootFolder,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _ModernTextField(
+                      controller: nameServiceController,
+                      label: 'اسم الخدمة',
+                      icon: Icons.miscellaneous_services,
+                      hint: 'مثال: user',
+                    ),
+                    const SizedBox(height: 16),
+                    _ModernTextField(
+                      controller: apiNameController,
+                      label: 'اسم الـ API',
+                      icon: Icons.api,
+                      hint: 'مثال: user_api',
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        icon: const Icon(Icons.create_new_folder),
+                        label: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 8.0),
+                          child: Text('إنشاء المجلدات والملفات'),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                        onPressed: () {
+                          rootFolder = rootFolderController.text;
+                          nameService = nameServiceController.text;
+                          apiName = apiNameController.text;
+                          createFoldersAndFiles();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+class _ModernTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final IconData icon;
+  final String? hint;
+  final Widget? suffix;
+
+  const _ModernTextField({
+    required this.controller,
+    required this.label,
+    required this.icon,
+    this.hint,
+    this.suffix,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: Colors.blue),
+        hintText: hint,
+        suffixIcon: suffix,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        filled: true,
+        fillColor: Colors.blue.withOpacity(0.05),
+      ),
+      style: const TextStyle(fontSize: 16),
+    );
+  }
+}
+
+class AddCubitPage extends StatelessWidget {
+  const AddCubitPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Cubit')),
+      body: const Center(child: Text('صفحة إضافة Cubit (سيتم تطويرها لاحقاً)')),
+    );
+  }
+}
+
+class AddServiceCubitPage extends StatelessWidget {
+  const AddServiceCubitPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add Service Cubit')),
+      body: const Center(child: Text('صفحة إضافة Service Cubit (سيتم تطويرها لاحقاً)')),
+    );
+  }
+}
+
+class EmptyNowPage extends StatelessWidget {
+  const EmptyNowPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Empty Now')),
+      body: const Center(child: Text('لا يوجد محتوى حالياً')), // يمكن تطويرها لاحقاً
     );
   }
 }
