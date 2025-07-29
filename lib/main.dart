@@ -40,6 +40,37 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(),
+      body: Row(
+        children: [
+          Expanded(
+              child: Container(
+            height: 200.0,
+            color: Colors.amber,
+          )),
+          Expanded(
+              child: Container(
+            height: 200.0,
+            color: Colors.amber,
+          )),
+        ],
+      ),
+    );
+  }
+}
+
+class FullService extends StatefulWidget {
+  const FullService({super.key});
+
+  @override
+  State<FullService> createState() => _FullServiceState();
+}
+
+class _FullServiceState extends State<FullService> {
   final rootFolderController = TextEditingController();
   final nameServiceController = TextEditingController();
   final apiNameController = TextEditingController();
@@ -49,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text('Full service'),
       ),
       body: Column(
         children: [
@@ -68,11 +99,6 @@ class _MyHomePageState extends State<MyHomePage> {
               rootFolder = rootFolderController.text;
               nameService = nameServiceController.text;
               apiName = apiNameController.text;
-              print('''
-                rootFolder : $rootFolder
-                nameService : $nameService
-                apiName : $apiName
-              ''');
               createFoldersAndFiles();
             },
             child: Text('Create Folders and Files'),
