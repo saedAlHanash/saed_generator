@@ -47,54 +47,156 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardItems = [
+      _HomeCardData(
+        title: 'Full Service',
+        icon: Icons.auto_awesome,
+        description: 'إنشاء خدمة كاملة تلقائيًا مع جميع الملفات.',
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const FullService()),
+        ),
+      ),
+      _HomeCardData(
+        title: 'Add Cubit',
+        icon: Icons.add_box,
+        description: 'إضافة Cubit جديد لمشروعك بسهولة.',
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AddCubitPage()),
+        ),
+      ),
+      _HomeCardData(
+        title: 'Add Service Cubit',
+        icon: Icons.add_business,
+        description: 'إضافة Service Cubit جديد.',
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AddServiceCubitPage()),
+        ),
+      ),
+      _HomeCardData(
+        title: 'Page',
+        icon: Icons.hourglass_empty,
+        description: 'صفحة عامة أو مخصصة.',
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EmptyNowPage()),
+        ),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Saed Generator'),
         centerTitle: true,
       ),
       body: Center(
-        child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 900),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _HomeButton(
-                  label: 'Full Service',
-                  icon: Icons.auto_awesome,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const FullService()),
+            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 40),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isWide = constraints.maxWidth > 700;
+                return GridView.count(
+                  crossAxisCount: isWide ? 2 : 1,
+                  mainAxisSpacing: 32,
+                  crossAxisSpacing: 32,
+                  shrinkWrap: true,
+                  childAspectRatio: isWide ? 2.2 : 1.7,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: cardItems.map((item) => _HomeCard(item: item)).toList(),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _HomeCardData {
+  final String title;
+  final IconData icon;
+  final String description;
+  final VoidCallback onTap;
+  const _HomeCardData({required this.title, required this.icon, required this.description, required this.onTap});
+}
+
+class _HomeCard extends StatefulWidget {
+  final _HomeCardData item;
+  const _HomeCard({required this.item, super.key});
+
+  @override
+  State<_HomeCard> createState() => _HomeCardState();
+}
+
+class _HomeCardState extends State<_HomeCard> {
+  bool _hovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovering = true),
+      onExit: (_) => setState(() => _hovering = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+          boxShadow: [
+            BoxShadow(
+              color: _hovering ? Colors.blue.withOpacity(0.18) : Colors.black12,
+              blurRadius: _hovering ? 18 : 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(
+            color: _hovering ? Colors.blue : Colors.grey.shade300,
+            width: _hovering ? 2 : 1,
+          ),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(18),
+            onTap: widget.item.onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 28),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade100,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    padding: const EdgeInsets.all(18),
+                    child: Icon(widget.item.icon, size: 38, color: Colors.blue.shade700),
                   ),
-                ),
-                const SizedBox(height: 20),
-                _HomeButton(
-                  label: 'Add Cubit',
-                  icon: Icons.add_box,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AddCubitPage()),
+                  const SizedBox(width: 32),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.item.title,
+                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          widget.item.description,
+                          style: TextStyle(fontSize: 15, color: Colors.grey.shade700),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                _HomeButton(
-                  label: 'Add Service Cubit',
-                  icon: Icons.add_business,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const AddServiceCubitPage()),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                _HomeButton(
-                  label: 'Empty Now',
-                  icon: Icons.hourglass_empty,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const EmptyNowPage()),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -107,7 +209,6 @@ class _HomeButton extends StatelessWidget {
   final String label;
   final IconData icon;
   final VoidCallback onTap;
-
   const _HomeButton({required this.label, required this.icon, required this.onTap, super.key});
 
   @override
@@ -115,10 +216,17 @@ class _HomeButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
-        icon: Icon(icon, size: 28),
+        icon: Icon(icon, size: 24),
         label: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text(label),
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: Text(label, style: const TextStyle(fontSize: 16)),
+        ),
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(0, 40),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         onPressed: onTap,
       ),
@@ -367,87 +475,89 @@ class _AddCubitPageState extends State<AddCubitPage> {
     return Scaffold(
       appBar: AppBar(title: const Text('إضافة Cubit جديد')),
       body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
-            child: Card(
-              elevation: 8,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Icon(Icons.add_box, size: 60, color: Colors.blue),
-                    const SizedBox(height: 16),
-                    Text(
-                      'إضافة Cubit جديد',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    _ModernTextField(
-                      controller: rootFolderController,
-                      label: 'مسار الجذر',
-                      icon: Icons.folder,
-                      hint: 'مثال: C:/Users/Lenovo/StudioProjects/packages',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.folder_open, color: Colors.blue),
-                        tooltip: 'اختيار مجلد...',
-                        onPressed: _pickRootFolder,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: 500, maxWidth: 600),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32),
+              child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Icon(Icons.add_box, size: 48, color: Colors.blue),
+                      const SizedBox(height: 12),
+                      Text(
+                        'إضافة Cubit جديد',
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    _ModernTextField(
-                      controller: nameServiceController,
-                      label: 'اسم الخدمة',
-                      icon: Icons.miscellaneous_services,
-                      hint: 'مثال: user',
-                    ),
-                    const SizedBox(height: 16),
-                    _ModernTextField(
-                      controller: apiNameController,
-                      label: 'اسم الـ API',
-                      icon: Icons.api,
-                      hint: 'مثال: user_api',
-                    ),
-                    const SizedBox(height: 16),
-                    _ModernTextField(
-                      controller: cubitSubFolderController,
-                      label: 'اسم مجلد الكيوبت (مثال: user_cubit)',
-                      icon: Icons.folder_special,
-                      hint: 'مثال: user_cubit',
-                      suffix: IconButton(
-                        icon: const Icon(Icons.folder_open, color: Colors.blue),
-                        tooltip: 'اختيار مجلد...',
-                        onPressed: _pickCubitSubFolder,
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        icon: isLoading
-                            ? const SizedBox(
-                                width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                            : const Icon(Icons.add),
-                        label: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text('إنشاء الكيوبت'),
+                      const SizedBox(height: 20),
+                      _ModernTextField(
+                        controller: rootFolderController,
+                        label: 'مسار الجذر',
+                        icon: Icons.folder,
+                        hint: 'مثال: C:/Users/Lenovo/StudioProjects/packages',
+                        suffix: IconButton(
+                          icon: const Icon(Icons.folder_open, color: Colors.blue),
+                          tooltip: 'اختيار مجلد...',
+                          onPressed: _pickRootFolder,
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                      ),
+                      const SizedBox(height: 12),
+                      _ModernTextField(
+                        controller: nameServiceController,
+                        label: 'اسم الخدمة',
+                        icon: Icons.miscellaneous_services,
+                        hint: 'مثال: user',
+                      ),
+                      const SizedBox(height: 12),
+                      _ModernTextField(
+                        controller: apiNameController,
+                        label: 'اسم الـ API',
+                        icon: Icons.api,
+                        hint: 'مثال: user_api',
+                      ),
+                      const SizedBox(height: 12),
+                      _ModernTextField(
+                        controller: cubitSubFolderController,
+                        label: 'اسم مجلد الكيوبت (مثال: user_cubit)',
+                        icon: Icons.folder_special,
+                        hint: 'مثال: user_cubit',
+                        suffix: IconButton(
+                          icon: const Icon(Icons.folder_open, color: Colors.blue),
+                          tooltip: 'اختيار مجلد...',
+                          onPressed: _pickCubitSubFolder,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          icon: isLoading
+                              ? const SizedBox(
+                                  width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              : const Icon(Icons.add),
+                          label: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4.0),
+                            child: Text('إنشاء الكيوبت', style: TextStyle(fontSize: 16)),
                           ),
-                          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(0, 40),
+                            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: isLoading ? null : _createCubit,
                         ),
-                        onPressed: isLoading ? null : _createCubit,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
