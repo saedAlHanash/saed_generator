@@ -3,6 +3,7 @@ import 'package:saed_generator/extinctions.dart';
 String rootFolder = '';
 String nameService = '';
 String apiName = '';
+String pathCatch = '';
 String nameProject = '';
 
 String get nameServiceCC => nameService.toCamelCase;
