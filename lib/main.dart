@@ -387,12 +387,6 @@ class _FullServiceState extends State<FullService> {
 }
 
 class _ModernTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final IconData icon;
-  final String? hint;
-  final Widget? suffix;
-
   const _ModernTextField({
     required this.controller,
     required this.label,
@@ -401,6 +395,11 @@ class _ModernTextField extends StatelessWidget {
     this.suffix,
     super.key,
   });
+  final TextEditingController controller;
+  final String label;
+  final IconData icon;
+  final String? hint;
+  final Widget? suffix;
 
   @override
   Widget build(BuildContext context) {

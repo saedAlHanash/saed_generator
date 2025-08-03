@@ -11,7 +11,7 @@ Future<void> addCubitG({
   required String rootFolderInput,
   required String nameServiceInput,
   required String apiNameInput,
-  required String cubitSubFolderInput, // اسم مجلد الكيوبت من المستخدم
+  required String cubitSubFolderInput,
 }) async {
   rootFolder = rootFolderInput;
   nameService = nameServiceInput;
