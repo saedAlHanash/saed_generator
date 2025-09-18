@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:saed_generator/extinctions.dart';
 import 'package:saed_generator/inject/text/inject_text.dart';
+import 'package:saed_generator/utile.dart';
 
 import '../const_data.dart';
 
-Future<void> inject() async {
+Future<void> inject({CreateCubitType? type}) async {
   var injectionPath = await 'injection_container.dart'.findFilesByName;
 
   // injectionPath ??= await checkAndCreate(injectionPath);
@@ -19,22 +20,40 @@ Future<void> inject() async {
 
   final modifiedLines = <String>[];
 
-  if (!existingLines.contains(importStatement.trim())) {
-    modifiedLines.add(importStatement);
-  }
+  if (type == null) {
+    if (!existingLines.contains(importStatement.trim())) {
+      modifiedLines.add(importStatement);
+    }
+    bool inserted = false;
 
-  bool inserted = false;
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      modifiedLines.add(line);
 
-  for (var i = 0; i < lines.length; i++) {
-    final line = lines[i];
-    modifiedLines.add(line);
+      if (!inserted &&
+          line.contains('Future<void> init() async {') &&
+          !existingLines.contains(registrationLine1) &&
+          !existingLines.contains(registrationLine2)) {
+        modifiedLines.add(registrationBlock);
+        inserted = true;
+      }
+    }
+  } else {
+    if (!existingLines.contains(importStatementC(type).trim())) {
+      modifiedLines.add(importStatementC(type));
+    }
+    bool inserted = false;
 
-    if (!inserted &&
-        line.contains('Future<void> init() async {') &&
-        !existingLines.contains(registrationLine1) &&
-        !existingLines.contains(registrationLine2)) {
-      modifiedLines.add(registrationBlock);
-      inserted = true;
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      modifiedLines.add(line);
+
+      if (!inserted &&
+          line.contains('Future<void> init() async {') &&
+          !existingLines.contains(type.registrationLine1)) {
+        modifiedLines.add(type.registrationBlock);
+        inserted = true;
+      }
     }
   }
 
