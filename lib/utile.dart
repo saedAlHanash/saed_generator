@@ -17,9 +17,22 @@ enum CreateCubitType {
   empty;
 
   List<String> get getSubFolder => switch (this) {
-        CreateCubitType.get => ['${nameServiceSC}_cubit'],
+        (CreateCubitType.get || CreateCubitType.empty) => ['${nameServiceSC}_cubit'],
         CreateCubitType.crud => ['${nameServiceSC}_cubits'],
-        CreateCubitType.empty => ['${nameServiceSC}_cubit'],
+      };
+
+  String get importStatement => switch (this) {
+        (CreateCubitType.get || CreateCubitType.empty) => '''
+      
+import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}_cubit/${nameServiceSC}_cubit.dart';
+
+
+''',
+        CreateCubitType.crud => '''
+      
+import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubit/${nameServiceSC}s_cubit.dart';
+
+''',
       };
 
   String get registrationLine1 => switch (this) {

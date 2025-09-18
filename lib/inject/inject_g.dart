@@ -39,9 +39,7 @@ Future<void> inject({CreateCubitType? type}) async {
       }
     }
   } else {
-    if (!existingLines.contains(importStatementC(type).trim())) {
-      modifiedLines.add(importStatementC(type));
-    }
+    modifiedLines.add(type.importStatement);
     bool inserted = false;
 
     for (var i = 0; i < lines.length; i++) {

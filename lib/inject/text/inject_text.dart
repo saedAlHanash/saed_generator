@@ -31,18 +31,6 @@ import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubi
 
 ''';
 
-String importStatementC(CreateCubitType type) => '''
-      ${switch (type) {
-      (CreateCubitType.empty || CreateCubitType.get) => 'import'
-          'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}_cubit/${nameServiceSC}_cubit.dart;',
-      CreateCubitType.crud => 'import'
-          'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubit/${nameServiceSC}s_cubit.dart;'
-    }}
-
-
-
-''';
-
 // تحقق من وجود منطقة التسجيل مسبقاً
 String get registrationLine1 => "sl.registerFactory(() => ${nameServicePC}Cubit());";
 
