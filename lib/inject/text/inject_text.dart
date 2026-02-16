@@ -1,3 +1,5 @@
+import 'package:saed_generator/utile.dart';
+
 import '../../const_data.dart';
 
 String get injectText => '''
@@ -22,8 +24,7 @@ Future<void> init() async {
 }
 ''';
 
-String get importStatement =>
-    '''
+String get importStatement => '''
       
 import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}_cubit/${nameServiceSC}_cubit.dart';
 import 'package:$nameProject/features/$nameServiceSC/bloc/${nameServiceSC}s_cubit/${nameServiceSC}s_cubit.dart';
@@ -35,8 +36,7 @@ String get registrationLine1 => "sl.registerFactory(() => ${nameServicePC}Cubit(
 
 String get registrationLine2 => "sl.registerFactory(() => ${nameServicePC}sCubit());";
 
-String get registrationBlock =>
-    '''
+String get registrationBlock => '''
   //region $nameServiceCC
   $registrationLine1
   $registrationLine2

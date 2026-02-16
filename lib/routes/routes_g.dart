@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:saed_generator/routes/texts/router_texts.dart';
+import 'package:saed_generator/utile.dart';
 
 import '../const_data.dart';
 
-Future<void> routeG() async {
+Future<void> routeG({CreateCubitType? type}) async {
   var fileRoute = await 'go_router.dart'.findFilesByName;
   // fileRoute ??= await checkAndCreate(fileRoute);
 
@@ -18,24 +19,44 @@ Future<void> routeG() async {
 
   final modifiedLines = <String>[];
 
-  if (!existingLines.contains(importRouterStatement.trim())) {
-    modifiedLines.add(importRouterStatement);
-  }
-
-  bool insertRoute = false;
-  bool insertNames = false;
-
-  for (var i = 0; i < lines.length; i++) {
-    final line = lines[i];
-    modifiedLines.add(line);
-
-    if (!insertRoute && line.contains('routes')) {
-      modifiedLines.add(registrationBlock);
-      insertRoute = true;
+  if (type == null) {
+    if (!existingLines.contains(importRouterStatement.trim())) {
+      modifiedLines.add(importRouterStatement);
     }
-    if (!insertNames && line.contains('class RouteName {')) {
-      modifiedLines.add(nameBloc);
-      insertNames = true;
+
+    bool insertRoute = false;
+    bool insertNames = false;
+
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      modifiedLines.add(line);
+
+      if (!insertRoute && line.contains('routes')) {
+        modifiedLines.add(registrationBlock);
+        insertRoute = true;
+      }
+      if (!insertNames && line.contains('class RouteName {')) {
+        modifiedLines.add(nameBloc);
+        insertNames = true;
+      }
+    }
+  } else {
+    modifiedLines.add(type.importRouterStatement);
+    bool insertRoute = false;
+    bool insertNames = false;
+
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+      modifiedLines.add(line);
+
+      if (!insertRoute && line.contains('routes')) {
+        modifiedLines.add(type.registrationBlockRoute);
+        insertRoute = true;
+      }
+      if (!insertNames && line.contains('class RouteName {')) {
+        modifiedLines.add(type.nameBloc);
+        insertNames = true;
+      }
     }
   }
 
