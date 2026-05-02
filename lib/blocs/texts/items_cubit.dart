@@ -27,6 +27,9 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
   @override
   String get filter => state.filter;
 
+  @override
+  ${nameServicePC}Initial get mState => state;
+
   //region getData
 
   void getDataFromCache() => getFromCache(
@@ -63,7 +66,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
 
   //region CRUD
   Future<void> create() async {
-    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: CubitCrud.create));
+    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: .create));
 
     final response = await APIService().callApi(
       type: ApiType.post,
@@ -75,7 +78,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
   }
 
   Future<void> update() async {
-    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: CubitCrud.update));
+    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: .update));
 
     final response = await APIService().callApi(
       type: ApiType.put,
@@ -87,7 +90,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
   }
 
   Future<void> delete({required String id}) async {
-    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: CubitCrud.delete, id: id));
+    emit(state.copyWith(statuses: CubitStatuses.loading, cubitCrud: .delete, id: id));
 
     final response = await APIService().callApi(
       type: ApiType.delete,
@@ -102,7 +105,7 @@ class ${nameServicePC}sCubit extends MCubit<${nameServicePC}sInitial> {
     final index = state.result.indexWhere((element) => element.id.toString() == id);
     final item = state.result.removeAt(index);
 
-    emit(state.copyWith(cubitCrud: CubitCrud.delete, result: state.result, id: id));
+    emit(state.copyWith(cubitCrud: .delete, result: state.result, id: id));
 
     final response = await APIService().callApi(
       type: ApiType.delete,

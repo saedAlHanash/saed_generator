@@ -9,7 +9,7 @@ class ${nameServicePC}sInitial extends AbstractState<List<$nameServicePC>> {
     required super.result,
     super.error,
     super.request,
-    super.filterRequest,
+
     super.cubitCrud,
     super.createUpdateRequest,
     super.statuses,
@@ -33,10 +33,9 @@ class ${nameServicePC}sInitial extends AbstractState<List<$nameServicePC>> {
         result,
         error,
         cubitCrud,
-        if (id != null) id,
-        if (request != null) request,
-        if (filterRequest != null) filterRequest!,
-        if (createUpdateRequest != null) createUpdateRequest!,
+        ?id,
+        ?request,
+        ?createUpdateRequest!,
       ];
 
   ${nameServicePC}sInitial copyWith({
@@ -44,7 +43,6 @@ class ${nameServicePC}sInitial extends AbstractState<List<$nameServicePC>> {
     CubitCrud? cubitCrud,
     List<$nameServicePC>? result,
     String? error,
-    FilterRequest? filterRequest,
     dynamic request,
     dynamic cRequest,
     dynamic id,
@@ -54,7 +52,6 @@ class ${nameServicePC}sInitial extends AbstractState<List<$nameServicePC>> {
       cubitCrud: cubitCrud ?? this.cubitCrud,
       result: result ?? this.result,
       error: error ?? this.error,
-      filterRequest: filterRequest ?? this.filterRequest,
       request: request ?? this.request,
       createUpdateRequest: cRequest ?? this.cRequest,
       id: id ?? this.id,

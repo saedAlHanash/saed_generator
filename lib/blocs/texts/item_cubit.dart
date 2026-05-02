@@ -22,6 +22,9 @@ class ${nameServicePC}Cubit extends MCubit<${nameServicePC}Initial> {
 
   @override
   String get filter => state.filter;
+  
+  @override
+  ${nameServicePC}Initial get mState => state;
 
   Future<void> getData({bool newData = false,  String? ${nameServiceCC}Id}) async {
     emit(state.copyWith(request: ${nameServiceCC}Id));

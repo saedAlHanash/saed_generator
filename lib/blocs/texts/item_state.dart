@@ -28,9 +28,8 @@ class ${nameServicePC}Initial extends AbstractState<$nameServicePC> {
         statuses,
         result,
         error,
-        if (request != null) request,
-        if (id != null) id,
-        if (filterRequest != null) filterRequest!,
+        ?request,
+        ?id,
       ];
       
   ${nameServicePC}Initial copyWith({
